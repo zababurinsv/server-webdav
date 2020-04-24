@@ -30,7 +30,7 @@ var corsOptionsDelegate = function (req, callback) {
 }
 
 app.get('/', async (req, res) => {
-    res.send({webdav:"1.0.0"})
+    res.send({webdav:"1.0.1"})
 })
 
 app.get('/createList',cors(corsOptionsDelegate), async (req, res) => {
