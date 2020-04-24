@@ -6,16 +6,10 @@ async function auth() {
     const client = createClient(
         "https://webdav.yandex.ru",
         {
-            // username: "anodpo.mcito@yandex.ru",
-            // password: "6lGvHi02Jw"
             username: "zababurin.s.v@yandex.ru",
             password: "fds744502fds"
-            // username: "MailMcito@yandex.ru",
-            // password: "qaz1234567890qaz"
-        //
         }
     );
-
     return client
 }
 
@@ -50,7 +44,7 @@ module.exports =  (obj, func, ...args) => {
                     try {
                         switch (obj[props]) {
                             case 'listPhoto':
-                                (async (obj, props,data) => {
+                               await (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
                                         const directoryItems = await client.getDirectoryContents(`${obj['account']}/photo`);
@@ -70,7 +64,7 @@ module.exports =  (obj, func, ...args) => {
                     try {
                         switch (obj[props]) {
                             case 'img':
-                                (async (obj, props,data) => {
+                               await (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
                                         const img = await client.getFileContents(`${obj['account']}/photo/${obj['data']}`);
@@ -99,7 +93,7 @@ module.exports =  (obj, func, ...args) => {
                                 })(obj, args[0], args[1], args[2], args[3])
                                 break
                             case 'about':
-                                (async (obj, props,data) => {
+                               await (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
                                         let str = await client.getFileContents(`${obj['account']}/upload/about.txt`, { format: "text" });
@@ -108,7 +102,7 @@ module.exports =  (obj, func, ...args) => {
                                 })(obj, args[0], args[1], args[2], args[3])
                                 break
                             case 'listPhoto':
-                                (async (obj, props,data) => {
+                               await (async (obj, props,data) => {
                                     try {
 
                                         let client = await auth()
@@ -118,7 +112,7 @@ module.exports =  (obj, func, ...args) => {
                                 })(obj, args[0], args[1], args[2], args[3])
                                 break
                             case 'moderator':
-                                (async (obj, props,data) => {
+                              await  (async (obj, props,data) => {
                                     try {
 
                                         let client = await auth()
@@ -128,7 +122,7 @@ module.exports =  (obj, func, ...args) => {
                                 })(obj, args[0], args[1], args[2], args[3])
                                 break
                             case 'moderatorFile':
-                                (async (obj, props,data) => {
+                               await (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
 
@@ -149,7 +143,7 @@ module.exports =  (obj, func, ...args) => {
                     try {
                         switch (obj[props]) {
                             case 'about':
-                                (async (obj, props,data) => {
+                              await  (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
                                         try {
@@ -166,7 +160,7 @@ module.exports =  (obj, func, ...args) => {
                                 })(obj, args[0], args[1], args[2], args[3])
                                 break
                             case 'listPhoto':
-                                (async (obj, props,data) => {
+                               await (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
 
@@ -176,7 +170,7 @@ module.exports =  (obj, func, ...args) => {
                                 })(obj, args[0], args[1], args[2], args[3])
                                 break
                             case 'file':
-                                (async (obj, props,data) => {
+                              await  (async (obj, props,data) => {
                                     try {
                                         if(client === null){
                                             client = await auth()
@@ -194,7 +188,7 @@ module.exports =  (obj, func, ...args) => {
                                 })(obj, args[0], args[1], args[2], args[3])
                                 break
                             case 'components':
-                                (async (obj, props,data) => {
+                              await  (async (obj, props,data) => {
                                     try {
                                         if(client === null){
                                             client = await auth()
@@ -226,7 +220,7 @@ module.exports =  (obj, func, ...args) => {
                     try {
                         switch (obj[props]) {
                             case 'moderator':
-                                (async (obj, props,data) => {
+                            await    (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
                                         try {
@@ -251,7 +245,7 @@ module.exports =  (obj, func, ...args) => {
                     try {
                         switch (obj[props]) {
                             case 'img':
-                                (async (obj, props,data) => {
+                             await   (async (obj, props,data) => {
                                     try {
                                         let client = await auth()
                                         const buff = await client.getFileContents("/Москва.jpg");
