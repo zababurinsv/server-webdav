@@ -49,17 +49,16 @@ app.get('/createList',cors(corsOptionsDelegate), async (req, res) => {
 })
 
 app.get('/getList',cors(corsOptionsDelegate), async (req, res) => {
-try {
-    let json = await yandex({
-        input:'server',
-        type:'listPhoto',
-        account:account
-    }, 'get', 'type')
-    res.send(JSON.parse(json))
-}catch (e) {
-    res.send({getList:"faled"})
-}
-
+    try {
+        let json = await yandex({
+            input:'server',
+            type:'listPhoto',
+            account:account
+        }, 'get', 'type')
+        res.send(JSON.parse(json))
+    }catch (e) {
+        res.send({getList:"faled"})
+    }
 })
 
 app.post('/list',cors(corsOptionsDelegate), async (req, res) => {
@@ -80,7 +79,6 @@ app.post('/list',cors(corsOptionsDelegate), async (req, res) => {
     }catch (e) {
         res.json({List:'fail'})
     }
-
 })
 
 app.post('/file',cors(corsOptionsDelegate), async (req, res) => {
@@ -217,5 +215,6 @@ app.get('/about',cors(corsOptionsDelegate),  async (req, res) => {
     }
 
 })
+
 app.use(queue.getErrorMiddleware())
 module.exports = app
