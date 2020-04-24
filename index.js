@@ -15,23 +15,25 @@ const queue = new Enqueue({
     timeout: 30000
 });
 app.use(queue.getMiddleware());
-let whitelist = ['https://web3-monopoly.web.app','http://localhost:8886','http://localhost:8887','http://localhost:8888','https://xart-3e938.firebaseapp.com','https://xart-3e938.web.app','https://universitykids.ru','https://vashi-faili.web.app','https://vashi-faili.web.app',  'https://www.universitykids.ru', 'https://tuning-fork.firebaseapp.com','http://localhost:8888', 'https://jainagul-tezekbaeva.firebaseapp.com','https://tezekbaeva.firebaseapp.com']
-const account = `/3N8n4Lc8BMsPPyVHJXTivQWs7ER61bB7wQn`
-let corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
+app.options('*', cors())
+let whitelist = ['https://web3-monopoly.web.app','http://localhost:8886','http://localhost:8887','http://localhost:8888','https://xart-3e938.firebaseapp.com','https://xart-3e938.web.app','https://universitykids.ru','https://vashi-faili.web.app','https://vashi-faili.web.app',  'https://www.universitykids.ru', 'https://tuning-fork.firebaseapp.com','http://localhost:8888', 'https://jainagul-tezekbaeva.firebaseapp.com','https://tezekbaeva.firebaseapp.com','http://localhost:6310']
+
+var corsOptionsDelegate = function (req, callback) {
+    let corsOptions;
+    
+    if (whitelist.indexOf(req.header('Origin')) !== -1 || req.header('Origin') === undefined ) {
+        corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+    } else {
+        corsOptions = { origin: false } // disable CORS for this request
     }
+    callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
 app.get('/', async (req, res) => {
     res.send({webdav:"1.0.0"})
 })
-app.options('/createList', cors(corsOptions))
-app.get('/createList',cors(corsOptions), async (req, res) => {
+
+app.get('/createList',cors(corsOptionsDelegate), async (req, res) => {
     let data = await yandex({
         input:'server',
         type:'listPhoto',
@@ -45,8 +47,8 @@ app.get('/createList',cors(corsOptions), async (req, res) => {
     }, 'set', 'type')
     res.send(data)
 })
-app.options('/getList', cors(corsOptions))
-app.get('/getList',cors(corsOptions), async (req, res) => {
+
+app.get('/getList',cors(corsOptionsDelegate), async (req, res) => {
 try {
     let json = await yandex({
         input:'server',
@@ -59,8 +61,8 @@ try {
 }
 
 })
-app.options('/list', cors(corsOptions))
-app.post('/list',cors(corsOptions), async (req, res) => {
+
+app.post('/list',cors(corsOptionsDelegate), async (req, res) => {
     try {
         switch (req.fields['type']) {
             case 'moderator':
@@ -80,8 +82,8 @@ app.post('/list',cors(corsOptions), async (req, res) => {
     }
 
 })
-app.options('/file', cors(corsOptions))
-app.post('/file',cors(corsOptions), async (req, res) => {
+
+app.post('/file',cors(corsOptionsDelegate), async (req, res) => {
     console.log('4')
     switch (req.fields['type']) {
         case 'moderator':
@@ -97,8 +99,8 @@ app.post('/file',cors(corsOptions), async (req, res) => {
             break
     }
 })
-app.options('/components', cors(corsOptions))
-app.post('/components', cors(corsOptions), async (req, res) => {
+
+app.post('/components', cors(corsOptionsDelegate), async (req, res) => {
     let json = await yandex({
         input:'server',
         type:'components',
@@ -109,8 +111,8 @@ app.post('/components', cors(corsOptions), async (req, res) => {
     }, 'set', 'type')
     res.send(json)
 })
-app.options('/moderators', cors(corsOptions))
-app.get('/moderators',cors(corsOptions), async (req, res) => {
+
+app.get('/moderators',cors(corsOptionsDelegate), async (req, res) => {
     console.log('~~~~~~~~~hhhh~~~~~')
     let json = await yandex({
         input:'server',
@@ -121,8 +123,7 @@ app.get('/moderators',cors(corsOptions), async (req, res) => {
     res.send(json)
 })
 
-app.options('/moderator/:id', cors(corsOptions))
-app.delete('/moderator/:id',cors(corsOptions), async (req, res) => {
+app.delete('/moderator/:id',cors(corsOptionsDelegate), async (req, res) => {
     let json = await yandex({
         input:'server',
         type:'moderator',
@@ -131,8 +132,8 @@ app.delete('/moderator/:id',cors(corsOptions), async (req, res) => {
     }, 'delete', 'type')
     res.send({delete:"ok"})
 })
-app.options('/moderator/:id', cors(corsOptions))
-app.put('/moderator/:id',cors(corsOptions), async (req, res) => {
+
+app.put('/moderator/:id',cors(corsOptionsDelegate), async (req, res) => {
     await yandex({
         input:'server',
         type:'moderator',
@@ -142,8 +143,8 @@ app.put('/moderator/:id',cors(corsOptions), async (req, res) => {
     }, 'update', 'type')
     res.send({update:'ok'})
 })
-app.options('/img/:id', cors(corsOptions))
-app.get('/img/:id',cors(corsOptions), async (req, res) => {
+
+app.get('/img/:id',cors(corsOptionsDelegate), async (req, res) => {
     console.log('103')
     let data = await yandex({
         input:'yandex',
@@ -153,8 +154,8 @@ app.get('/img/:id',cors(corsOptions), async (req, res) => {
     }, 'get', 'type')
     res.send(data)
 })
-app.options('/setMail', cors(corsOptions))
-app.post('/setMail', cors(corsOptions), async (req, res) => {
+
+app.post('/setMail', cors(corsOptionsDelegate), async (req, res) => {
     let type = {}
     console.log('102')
     switch(req.files['file']['type']){
@@ -189,8 +190,7 @@ app.post('/setMail', cors(corsOptions), async (req, res) => {
     }
 })
 
-app.options('/about', cors(corsOptions))
-app.post('/about',cors(corsOptions),  async (req, res) => {
+app.post('/about',cors(corsOptionsDelegate),  async (req, res) => {
     console.log('9')
     let json = await yandex({
         input:'server',
@@ -201,8 +201,8 @@ app.post('/about',cors(corsOptions),  async (req, res) => {
     console.log(json)
     res.json(json)
 })
-app.options('/about', cors(corsOptions))
-app.get('/about',cors(corsOptions),  async (req, res) => {
+
+app.get('/about',cors(corsOptionsDelegate),  async (req, res) => {
     console.log('10')
     try {
         let json = await yandex({
