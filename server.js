@@ -1,3 +1,2 @@
-let app = require('./index.js')
-
-app.listen(4000, function () { console.log('listening on *:4000'); });
+import app from './index.js'
+app.listen(4000, function () { console.log('listening on http://localhost:4000'); });
