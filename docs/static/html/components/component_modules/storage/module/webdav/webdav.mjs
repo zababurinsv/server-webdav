@@ -76,6 +76,8 @@ export default (view, property, color, substrate, relation)=>{
     switch (relation) {
         case '/storage/delete/all':
             return  delFiles(view, relation, color, substrate, property)
+        case '/storage/delete/all/items':
+            return  delFiles(view, relation, color, substrate, property)
         case '/storage/set/item':
             return  setFiles(view, relation, color, substrate, property)
         case '/storage/get/all':

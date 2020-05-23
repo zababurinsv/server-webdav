@@ -1,7 +1,7 @@
 import IndexedDB from "/static/html/components/component_modules/storage/module/IndexedDB/IndexedDB.mjs";
 import localStorage from '/static/html/components/component_modules/storage/module/localStorage/localStorage.mjs'
 import mongodb from '/static/html/components/component_modules/storage/module/mongoDb/mongodb.mjs'
-import webdav from '/static/html/components/component_modules/storage/module/wabdav/webdav.mjs'
+import webdav from '/static/html/components/component_modules/storage/module/webdav/webdav.mjs'
 export default {
     set:(view,property, color, substrate, relation)=>{
         return new Promise( async (resolve, reject) => {

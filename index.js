@@ -34,16 +34,20 @@ app.use( express.static('static'));
 
 app.options('/api/storage/set/item', cors(corsOptions))
 app.post('/api/storage/set/item', cors(corsOptions),async (req, res) => {
-    console.log('----/storage/set/item---->')
     let out = await yandex(false,'a','5',  req.body, '/storage/set/item')
     res.json({key:'value'})
 })
 
 app.options('/api/storage/delete/all', cors(corsOptions))
 app.post('/api/storage/delete/all', cors(corsOptions),async (req, res) => {
-    console.log('----/storage/delete/all---->')
     let out = await yandex(false,'dex','5',  req.body, '/storage/delete/all')
-    res.json({key:'value'})
+    res.json(out)
+})
+
+app.options('/api/storage/delete/all/items', cors(corsOptions))
+app.post('/api/storage/delete/all/items', cors(corsOptions),async (req, res) => {
+    let out = await yandex(false,'dex','5',  req.body, '/storage/delete/all/items')
+    res.json(out)
 })
 
 app.options('/api/matcher/orderbook/{publicKey}', cors(corsOptions))

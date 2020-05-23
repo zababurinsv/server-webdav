@@ -65,19 +65,37 @@ export default (view, property, color, substrate, relation)=> {
                 break
             case'/storage/delete/all':
                 try {
+                    let list = {}
+
                     if (await storage.staticProperty.client.exists("/dex") === false) {
 
                     }else{
-                        let list = await storage.staticProperty.client.getDirectoryContents(`/dex`);
-                        for(let item of list){
-                            await storage.staticProperty.client.deleteFile(`${item.filename}`);
-                        }
+                        list = await storage.staticProperty.client.getDirectoryContents(`/dex`);
+
                     }
-                    out({_:'status',status:'true'})
+                    out(list)
                     // await storage.staticProperty.client.putFileContents(`${obj['account']}/upload/${obj['dirName']}/${obj['dirName']}.${obj['typeFile']}`, obj['data'], { overwrite: true });
                     // await storage.staticProperty.client.putFileContents(`${obj['account']}/upload/${obj['dirName']}/${obj['dirName']}.txt`, obj['txt']);
                 } catch (e) {
                     err(e)
+                }
+                break
+            case'/storage/delete/all/items':
+                try {
+                    let list = {}
+
+                    if (await storage.staticProperty.client.exists("/dex") === false) {
+
+                    }else{
+                        await storage.staticProperty.client.putFileContents(`/dex/${Date.now()}.json`, substrate);
+                        for(let item of substrate){
+                            await storage.staticProperty.client.deleteFile(`${item}`);
+                        }
+
+                    }
+                    out({_:'archive',archive:'true' })
+                } catch (e) {
+                    out({_:'archive',archive:'false', error: e})
                 }
                 break
             case '/matcher/orderbook/{publicKey}':
