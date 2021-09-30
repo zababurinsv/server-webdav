@@ -1,5 +1,5 @@
 {
-  "name": "webdaw",
+  "name": "@server/webdaw",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Zababurin Sergey",
